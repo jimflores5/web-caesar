@@ -1,5 +1,5 @@
 from flask import Flask, request
-from web-caesar import encrypt
+from webcaesar import encrypt
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -44,5 +44,12 @@ form = """
 @app.route("/")
 def index():
     return form
+
+@app.route("/", methods=['POST'])
+def mask():
+    shift_by = int(request.form['rot'])
+    original_text = request.form['text']
+    new_text = encrypt(original_text,shift_by)
+    return "<h1>"+new_text+"</h1>"
 
 app.run()
